@@ -8,6 +8,8 @@ namespace MyXUnitProjekt
 {
     public class NameRegister
     {
+        public String nickname { get; set; }
+
         public string FullName(string firstName,  string lastName) {
             return firstName + " " + lastName;
         }

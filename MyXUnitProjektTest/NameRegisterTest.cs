@@ -3,13 +3,24 @@ using MyXUnitProjekt;
 
 namespace MyXUnitProjektTest
 {
+    [Collection("NameRegister")]
     public class NameRegisterTest
     {
+
+        private NameRegisterFixture _fixture;
+
+        public NameRegisterTest(NameRegisterFixture fixture)
+        {
+            _fixture = fixture;
+            _fixture.NameRegister.nickname = null; //CLeanup
+        }
+
         [Fact]
         public void CreateFullNameOf_Marcus_Henriksson()
         {
             //Skapa ett objekt av NameRegister
-            NameRegister nameRegister = new NameRegister();
+            //NameRegister nameRegister = new NameRegister();
+            NameRegister nameRegister = _fixture.NameRegister;
             string firstName = "Marcus", lastName = "Henriksson";
 
             Assert.Equal("Marcus Henriksson", nameRegister.FullName(firstName, lastName));
@@ -19,7 +30,7 @@ namespace MyXUnitProjektTest
         public void CreateStandardizedNameOf_Marcus_Henriksson()
         {
             //Skapa ett objekt av NameRegister
-            NameRegister nameRegister = new NameRegister();
+            NameRegister nameRegister = _fixture.NameRegister;
             string firstName = "Marcus", lastName = "Henriksson";
 
             Assert.Equal("marcus henriksson", nameRegister.StandardizedName(firstName, lastName));
@@ -27,18 +38,26 @@ namespace MyXUnitProjektTest
         }
 
         [Fact]
-        public void CreatePersonOrRegister()
+        [Trait("Category", "Nickname")]
+        public void CreateNameRegWithEmptyNickname()
         {
-            NameRegister nameRegister = new NameRegister();
-
-            //Skapa ett objekt av klassen Person
-            NameRegister p1 = nameRegister.createNew(true);
-            //Skapa ett objekt av klassen NameRegister
-            NameRegister p2 = nameRegister.createNew(false);
-
-            Assert.IsType(typeof(Person), p1);
-
-            Assert.IsNotType(typeof(Person), p2);
+            NameRegister nameRegister = _fixture.NameRegister;
+            Assert.Null(nameRegister.nickname);
         }
+
+        [Fact]
+        [Trait("Category", "Nickname")]
+        public void CreateNameRegAndChangeNickname()
+        {
+            NameRegister nameRegister = _fixture.NameRegister;
+            nameRegister.nickname = "Mackan";
+
+            Assert.Equal("Mackan", nameRegister.nickname);
+
+            //Cleanup for future tests
+            nameRegister.nickname = null;
+        }
+
+
     }
 }
