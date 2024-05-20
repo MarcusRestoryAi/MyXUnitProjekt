@@ -17,6 +17,23 @@ namespace MyXUnitProjektTest
             _testOutputHelper.WriteLine("Constructor");
         }
 
+        [Trait("Category", "Adding")]
+        [Theory]
+        [InlineData(1, 1, 2)]
+        [InlineData(2, 1, 3)]
+        [InlineData(3, 1, 4)]
+        [InlineData(4, 1, 5)]
+        [InlineData(4, 2, 6)]
+        [InlineData(5, 1, 6)]
+        [InlineData(6, 1, 7)]
+        [InlineData(7, 1, 8)]
+        public void Add(double nr1, double nr2, double expected)
+        {
+            Calculator calc = _fixture.Calc;
+
+            Assert.Equal(expected, calc.Add(nr1, nr2));
+        }
+
         [Fact]
         [Trait("Category", "Adding")]
         public void Add5With7()

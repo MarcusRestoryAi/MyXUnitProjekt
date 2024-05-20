@@ -4,6 +4,7 @@ using MyXUnitProjekt;
 namespace MyXUnitProjektTest
 {
     [Collection("NameRegister")]
+    [TestCaseOrderer("MyXUnitProjektTest", "MyXUnitProjektTest")]
     public class NameRegisterTest
     {
 
@@ -15,15 +16,17 @@ namespace MyXUnitProjektTest
             _fixture.NameRegister.nickname = null; //CLeanup
         }
 
-        [Fact]
-        public void CreateFullNameOf_Marcus_Henriksson()
+        [Theory]
+        [InlineData("Marcus", "Henriksson", "Marcus Henriksson")]
+        [InlineData("Niklas", "Cullberg", "Niklas Cullberg")]
+        public void CreateFullNameOf_Marcus_Henriksson(string firstName, string lastName, string expected)
         {
             //Skapa ett objekt av NameRegister
             //NameRegister nameRegister = new NameRegister();
             NameRegister nameRegister = _fixture.NameRegister;
-            string firstName = "Marcus", lastName = "Henriksson";
+            //string firstName = "Marcus", lastName = "Henriksson";
 
-            Assert.Equal("Marcus Henriksson", nameRegister.FullName(firstName, lastName));
+            Assert.Equal(expected, nameRegister.FullName(firstName, lastName));
         }
 
         [Fact]
